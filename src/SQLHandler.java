@@ -12,7 +12,7 @@ public class SQLHandler {
 
     // Path to the .db file (change if needed)
     private static SQLHandler sqlHandler;
-    private static final String DB_PATH = "C:\\Users\\imerchan\\Documents\\Aston_Uni\\DC3IPR Individual Project\\Resources\\Java\\src\\tasks_users_new.db";
+    private static final String DB_PATH = "C:\\Users\\imerchan\\Documents\\GitHub\\TaskManager\\TaskManager\\src\\tasks_users_new.db";
 
     // SQL schema as a multi-line string
     private static final String TASKS_USERS_SCHEMA_SQL = """
