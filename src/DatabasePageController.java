@@ -58,8 +58,7 @@ public class DatabasePageController {
         for (int i = 0; i < tasks.size(); i++) {
             Task task = tasks.get(i);
             if (task.getTitle().toLowerCase().contains(query.toLowerCase()) ||
-                task.getDescription().toLowerCase().contains(query.toLowerCase()) ||
-                task.getAssignedEmails().toLowerCase().contains(query.toLowerCase())) {
+                task.getDescription().toLowerCase().contains(query.toLowerCase())) {
                 filtered.add(task);
             }
         }
