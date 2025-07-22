@@ -1,3 +1,8 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JOptionPane;
 
 public class DatabasePageController {
@@ -10,6 +15,21 @@ public class DatabasePageController {
         tasks  = Tasks.getInstance();
         loadExistingItemstoRows();  
         SQLHandler.getInstance().inspectTaskIdSequence();
+
+        databasePage.getSearchButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String query = databasePage.getSearchField().getText().trim();
+                if (!query.isEmpty()) {
+                    filterTasks(query);
+                }
+            }
+        });
+
+        databasePage.getClearSearchButton().addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                resetTaskList();
+            }
+        });
         
 
     }
@@ -31,4 +51,30 @@ public class DatabasePageController {
         }
         tasks.removeAllTasks();
     }
+
+    public void filterTasks(String query) {
+        SQLHandler.getInstance().loadTasksFromDatabase();
+        List<Task> filtered = new ArrayList<>();
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
+            if (task.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                task.getDescription().toLowerCase().contains(query.toLowerCase()) ||
+                task.getAssignedEmails().toLowerCase().contains(query.toLowerCase())) {
+                filtered.add(task);
+            }
+        }
+        databasePage.clearTasksFromGrid();
+        for (Task task : filtered) {
+            databasePage.addExistingTask(task);
+        }
+        databasePage.highlightSearchMode();
+        tasks.removeAllTasks();
+    }
+
+    public void resetTaskList() {
+        databasePage.clearTasksFromGrid();
+        loadExistingItemstoRows();
+        databasePage.clearSearchHighlight();
+    }
+
 }

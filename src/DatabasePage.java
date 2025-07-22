@@ -1,32 +1,10 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Rectangle;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.sql.Connection;
-import java.util.ArrayList;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
 
 public class DatabasePage {
     // Create the main frame
@@ -45,6 +23,10 @@ public class DatabasePage {
     int contentPaneHeight;
     RowPanel firstRowPanel;
     JScrollPane mainScrollPane;
+    private JTextField searchField;
+    private JButton searchButton;
+    private JButton clearSearchButton;
+    private DatabasePageController controller;
 
 
     public DatabasePage(JFrame dataFrame){
@@ -57,6 +39,18 @@ public class DatabasePage {
         JPanel content = new JPanel();
         dataFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         dataFrame.setTitle("Planner: Database");
+
+        // Search Panel
+        JPanel searchPanel = new JPanel();
+        searchField = new JTextField(20);
+        searchButton = new JButton("Search");
+        clearSearchButton = new JButton("Clear Search");
+        clearSearchButton.setVisible(false);
+        searchPanel.add(new JLabel("Search:"));
+        searchPanel.add(searchField);
+        searchPanel.add(searchButton);
+        searchPanel.add(clearSearchButton);
+        mainPanel.add(searchPanel, BorderLayout.NORTH);
 
         // Create a panel with a button
         buttonsPanel = new JPanel();
@@ -215,8 +209,28 @@ public class DatabasePage {
         scrollPane.revalidate();
         mainPanel.revalidate();
     }
-    
-    
 
+    public void highlightSearchMode() {
+        gridPanel.setBackground(new Color(255, 255, 200));
+        gridPanel.setBorder(new LineBorder(Color.ORANGE, 2));
+        clearSearchButton.setVisible(true);
+    }
 
+    public void clearSearchHighlight() {
+        gridPanel.setBackground(null);
+        gridPanel.setBorder(null);
+        clearSearchButton.setVisible(false);
+    }
+
+    public JButton getSearchButton(){
+        return searchButton;
+    }
+    
+    public JTextField getSearchField(){
+        return searchField;
+    }
+
+    public JButton getClearSearchButton(){
+        return clearSearchButton;
+    }
 }
