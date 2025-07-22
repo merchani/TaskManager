@@ -40,6 +40,10 @@ public class DatabasePage {
         dataFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         dataFrame.setTitle("Planner: Database");
 
+        // main panel 
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
         // Search Panel
         JPanel searchPanel = new JPanel();
         searchField = new JTextField(20);
@@ -128,8 +132,6 @@ public class DatabasePage {
             }
         });
 
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         gridPanel = new JPanel();
         gridPanel.setLayout(new BoxLayout(gridPanel, BoxLayout.Y_AXIS));
 
@@ -149,16 +151,12 @@ public class DatabasePage {
                 mainPanel.repaint();
             }
         });
-
-        
         
         mainPanel.add(borderPanel);
         mainPanel.add(gridLabels);
         mainPanel.add(scrollPane);
         mainPanel.setBorder(new EmptyBorder (10,50,10,50));
-
         content.add(mainPanel);
-
 
         dataFrame.add(content);
         dataFrame.getContentPane().revalidate();
@@ -208,6 +206,12 @@ public class DatabasePage {
 
         scrollPane.revalidate();
         mainPanel.revalidate();
+    }
+
+    public void clearTasksFromGrid() {
+        gridPanel.removeAll();
+        gridPanel.revalidate();
+        gridPanel.repaint();
     }
 
     public void highlightSearchMode() {
