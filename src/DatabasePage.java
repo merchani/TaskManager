@@ -25,6 +25,10 @@ public class DatabasePage {
     JScrollPane mainScrollPane;
     JPanel mainPanel;
     JButton bucketDropDownButton;
+    JButton frequencyDropDownButton;
+    JButton assignedEmailsDropDownButton;
+    JButton dueDateDropDownButton;
+
     private JTextField searchField;
     private JButton searchButton;
     private JButton clearSearchButton;
@@ -76,14 +80,14 @@ public class DatabasePage {
         JPanel gridLabels = new JPanel();
 
         JPanel preTitleBuffer = new JPanel();
-        preTitleBuffer.setPreferredSize(new Dimension(60, 10));
+        preTitleBuffer.setPreferredSize(new Dimension(80, 10));
         gridLabels.add(preTitleBuffer);
         JLabel titleLabel = new JLabel ("Title");
         titleLabel.setFont(labelFont);
         gridLabels.add(titleLabel);
 
         JPanel preDescriptionBuffer = new JPanel();
-        preDescriptionBuffer.setPreferredSize(new Dimension(120, 10));
+        preDescriptionBuffer.setPreferredSize(new Dimension(140, 10));
         gridLabels.add(preDescriptionBuffer);
         JLabel descriptionLabel = new JLabel ("Description");
         descriptionLabel.setFont(labelFont);
@@ -101,48 +105,53 @@ public class DatabasePage {
         gridLabels.add(bucketLabelAndDropDown);
 
         JPanel preFrequencyBuffer = new JPanel();
-        preFrequencyBuffer.setPreferredSize(new Dimension(70, 10));
+        preFrequencyBuffer.setPreferredSize(new Dimension(20, 10));
         gridLabels.add(preFrequencyBuffer);
         JLabel frequencyLabel = new JLabel ("Frequency");
         frequencyLabel.setFont(labelFont);
-        gridLabels.add(frequencyLabel);
+        frequencyDropDownButton = new JButton("▼");
+        JPanel frequencyLabelAndDropDown = new JPanel();
+        frequencyLabelAndDropDown.add(frequencyLabel);
+        frequencyLabelAndDropDown.add(frequencyDropDownButton);
+        gridLabels.add(frequencyLabelAndDropDown);
 
         JPanel preAssignedEmailsBuffer = new JPanel();
-        preAssignedEmailsBuffer.setPreferredSize(new Dimension(120, 10));
+        preAssignedEmailsBuffer.setPreferredSize(new Dimension(30, 10));
         gridLabels.add(preAssignedEmailsBuffer);
         JLabel assignedEmailsLabel = new JLabel ("Assigned Emails");
         assignedEmailsLabel.setFont(labelFont);
-        gridLabels.add(assignedEmailsLabel);
+        assignedEmailsDropDownButton = new JButton("▼");
+        JPanel assignedEmailsLabelAndDropDown = new JPanel();
+        assignedEmailsLabelAndDropDown.add(assignedEmailsLabel);
+        assignedEmailsLabelAndDropDown.add(assignedEmailsDropDownButton);
+        gridLabels.add(assignedEmailsLabelAndDropDown);
 
         JPanel preDueDateBuffer = new JPanel();
-        preDueDateBuffer.setPreferredSize(new Dimension(115, 10));
+        preDueDateBuffer.setPreferredSize(new Dimension(100, 10));
         gridLabels.add(preDueDateBuffer);
         JLabel dueDateLabel = new JLabel ("Due Date");
         dueDateLabel.setFont(labelFont);
-        gridLabels.add(dueDateLabel);
+        dueDateDropDownButton = new JButton("▼");
+        JPanel dueDateLabelAndDropDown = new JPanel();
+        dueDateLabelAndDropDown.add(dueDateLabel);
+        dueDateLabelAndDropDown.add(dueDateDropDownButton);
+        gridLabels.add(dueDateLabelAndDropDown);
 
         JPanel preActionBuffer = new JPanel();
-        preActionBuffer.setPreferredSize(new Dimension(103, 10));
+        preActionBuffer.setPreferredSize(new Dimension(90, 10));
         gridLabels.add(preActionBuffer);
         JLabel actionLabel = new JLabel ("Action");
         actionLabel.setFont(labelFont);
         gridLabels.add(actionLabel);
         JPanel postActionBuffer = new JPanel();
-        postActionBuffer.setPreferredSize(new Dimension(17, 10));
+        postActionBuffer.setPreferredSize(new Dimension(25, 10));
         gridLabels.add(postActionBuffer);
 
         gridLabels.setLayout(new BoxLayout(gridLabels, BoxLayout.X_AXIS));
-
-        
-
         gridPanel = new JPanel();
         gridPanel.setLayout(new BoxLayout(gridPanel, BoxLayout.Y_AXIS));
-
-    
-        
         scrollPane = new JScrollPane(gridPanel);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); 
-        //scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
 
         newTaskButton.addActionListener(new ActionListener() {
             @Override
@@ -251,5 +260,17 @@ public class DatabasePage {
 
     public JButton getBucketDropDownButton(){
         return bucketDropDownButton;
+    }
+
+    public JButton getFrequencyDropDownButton(){
+        return frequencyDropDownButton;
+    }
+
+    public JButton getAssignedEmailsDropDownButton(){
+        return assignedEmailsDropDownButton;
+    }
+
+    public JButton getDueDateDropDownButton(){
+        return dueDateDropDownButton;
     }
 }

@@ -93,7 +93,6 @@ public class SQLHandler {
     public static Connection getConnection() {
             try {
                 Connection conn = DriverManager.getConnection(DBURL());
-                System.out.println("Connected to database at: " + DB_PATH);
                 return conn;
             } catch (SQLException e) {
                 System.out.println("Connection failed:");
@@ -286,7 +285,7 @@ public class SQLHandler {
 
             if (rs.next()) {
                 int currentId = rs.getInt("seq");
-                System.out.println("Current AUTOINCREMENT value for tasks_table: " + currentId);
+                //System.out.println("Current AUTOINCREMENT value for tasks_table: " + currentId);
             } else {
                 System.out.println("No entry found in sqlite_sequence for tasks_table. It may not have any rows yet.");
             }
@@ -323,7 +322,6 @@ public class SQLHandler {
                 }
             }
             users.setHighestUserID(maxID+1);
-            System.out.println("Users loaded from database successfully. Total: " + users.getUserList().size());
         } catch (SQLException e) {
             System.out.println("Failed to load users from database:");
             e.printStackTrace();
@@ -354,7 +352,6 @@ public class SQLHandler {
             }
             tasks.setHighestTaskID(maxID+1);
 
-            System.out.println("Tasks loaded from database successfully. Tasks size: "+tasks.size());
 
         } catch (SQLException e) {
             System.out.println("Failed to load tasks from database:");
@@ -480,7 +477,6 @@ public boolean updateTaskDueDateByFrequency(int id) {
             while (rs.next()) {
                 emails.add(rs.getString("emailText"));
             }
-            System.out.println("number of emails is: "+emails.size());
         } catch (SQLException e) {
             System.out.println("Failed to fetch emails:");
             e.printStackTrace();

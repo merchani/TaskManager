@@ -283,7 +283,7 @@ public class RowPanel {
         public JPanel createFrequencyComboBox() {    
                 JPanel field = new JPanel();
 
-                String[] frequencyOptions = {"One Time", "Daily", "Weekly", "Monthly", "Yearly"};
+                String[] frequencyOptions = getFrequencyOptions();
                 frequencyComboBox = new JComboBox<>(frequencyOptions);
                 frequencyComboBox.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 JPanel panel = new JPanel();
@@ -293,6 +293,10 @@ public class RowPanel {
                 field.setLayout(new BoxLayout(field, BoxLayout.Y_AXIS));
                 rowLength++;
                 return field;
+        }
+
+        public static String[] getFrequencyOptions() {
+                return new String[] {"One Time", "Daily", "Weekly", "Monthly", "Yearly"};
         }
 
         public String getFrequencyString(){

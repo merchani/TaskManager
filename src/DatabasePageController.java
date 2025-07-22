@@ -62,6 +62,65 @@ public class DatabasePageController {
             }
         });
 
+        databasePage.getFrequencyDropDownButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JPopupMenu bucketMenu = new JPopupMenu();
+                String[] frequencyOptions = RowPanel.getFrequencyOptions();
+                for (String option : frequencyOptions) {
+                    JMenuItem item = new JMenuItem(option);
+                    item.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            JOptionPane.showMessageDialog(databasePage.getDatabaseFrame(), "Selected: " + option);
+                            filterTasksByFrequency(option);
+                        }
+                    });
+                    bucketMenu.add(item);
+                }
+                JMenuItem resetItem = new JMenuItem("Show All");
+                resetItem.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        resetTaskList(); // Call the controller method to reset
+                    }
+                });
+                bucketMenu.addSeparator(); // Optional: separates reset from other options
+                bucketMenu.add(resetItem);
+                bucketMenu.show(databasePage.getFrequencyDropDownButton(), 0, databasePage.getFrequencyDropDownButton().getHeight());
+            }
+        });
+
+        databasePage.getAssignedEmailsDropDownButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JPopupMenu bucketMenu = new JPopupMenu();
+                ArrayList<String> assignedEmailsOptions = SQLHandler.getInstance().getAllEmails();
+                for (String option : assignedEmailsOptions) {
+                    JMenuItem item = new JMenuItem(option);
+                    item.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            JOptionPane.showMessageDialog(databasePage.getDatabaseFrame(), "Selected: " + option);
+                            filterTasksByAssignedEmails(option);
+                        }
+                    });
+                    bucketMenu.add(item);
+                }
+                JMenuItem resetItem = new JMenuItem("Show All");
+                resetItem.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        resetTaskList(); // Call the controller method to reset
+                    }
+                });
+                bucketMenu.addSeparator(); // Optional: separates reset from other options
+                bucketMenu.add(resetItem);
+                bucketMenu.show(databasePage.getAssignedEmailsDropDownButton(), 0, databasePage.getAssignedEmailsDropDownButton().getHeight());
+            }
+        });
+
+
         databasePage.getPlannerButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -83,7 +142,6 @@ public class DatabasePageController {
                 Task task = tasks.get(taskIndex);
                 databasePage.addExistingTask(task);
             }
-            System.out.println(tasks.size() +" items in the task list");
         }
         tasks.removeAllTasks();
     }
@@ -116,6 +174,41 @@ public class DatabasePageController {
             }
         }
 
+        databasePage.clearTasksFromGrid();
+        for (Task task : filtered) {
+            databasePage.addExistingTask(task);
+        }
+        databasePage.highlightSearchMode();
+        tasks.removeAllTasks();
+    }
+
+    public void filterTasksByFrequency(String frequency) {
+        SQLHandler.getInstance().loadTasksFromDatabase();
+        List<Task> filtered = new ArrayList<>();
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
+            if (task.getFrequency().equalsIgnoreCase(frequency)) {
+                filtered.add(task);
+            }
+        }
+
+        databasePage.clearTasksFromGrid();
+        for (Task task : filtered) {
+            databasePage.addExistingTask(task);
+        }
+        databasePage.highlightSearchMode();
+        tasks.removeAllTasks();
+    }
+
+    public void filterTasksByAssignedEmails(String email) {
+        SQLHandler.getInstance().loadTasksFromDatabase();
+        List<Task> filtered = new ArrayList<>();
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
+            if (task.getAssignedEmails().contains(email.toLowerCase())) {
+                filtered.add(task);
+            }
+        }
         databasePage.clearTasksFromGrid();
         for (Task task : filtered) {
             databasePage.addExistingTask(task);

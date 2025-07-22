@@ -25,12 +25,10 @@ public class PlannerPageController {
         }
         for (int taskIndex = 0;taskIndex<tasks.size();taskIndex++){
             Task task = tasks.get(taskIndex);
-            System.out.println("Task Before PlannerPage: " + task.getDueDate());
             for (int colIndex = 0; colIndex < columnsList.size(); colIndex++) {
             ColumnPanel column = columnsList.get(colIndex);
             if (column.getBucketName().equals(task.getBucket())) {
                 column.addTask(task);
-                System.out.println("Task"+ taskIndex+" After PlannerPage: " + task.getDueDate());
 
                 break; // Stop checking once the correct column is found
                 }
