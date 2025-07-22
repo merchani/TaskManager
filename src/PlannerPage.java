@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 public class PlannerPage {
     JPanel borderPanel;
@@ -24,10 +25,11 @@ public class PlannerPage {
     JPanel buttonsPanel;
     JPanel columnPanels;
     JFrame plannerFrame;
+    JPanel mainPanel;
 
     public PlannerPage(JFrame plannerFrame){
         Font labelFont = new Font("Serif bold", Font.BOLD, 16);
-
+        mainPanel = new JPanel();
         columnsList = new ArrayList<ColumnPanel>();
         this.plannerFrame = plannerFrame;
 
@@ -66,9 +68,12 @@ public class PlannerPage {
             column.setPanelDimensions(width/5,height);
             columnPanels.add(column.getColumnPanel());
         }
-        plannerFrame.getContentPane().add(buttonsPanel);
-        plannerFrame.getContentPane().add(columnPanels);
-        plannerFrame.setLayout(new BoxLayout(plannerFrame.getContentPane(),BoxLayout.Y_AXIS));
+        mainPanel.add(buttonsPanel);
+        mainPanel.add(columnPanels);
+        mainPanel.setBorder(new EmptyBorder (10,50,10,50));
+        mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
+        plannerFrame.add(mainPanel);
+
 
         revalidateFrame();
 

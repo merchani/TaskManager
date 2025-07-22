@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -59,6 +60,9 @@ public class LoginPage {
         titleLabel.setFont(titleFont);
         titleContainer = new JPanel();
         titleContainer.add(titleLabel);
+        titleContainer.setBorder(new EmptyBorder (frame.getY()/5,0,0,0));
+
+
 
         // Create text field for username
         JLabel usernameLabel =  new JLabel("Please enter your username");
@@ -100,13 +104,11 @@ public class LoginPage {
         frame.setLayout(new FlowLayout());
         JPanel gridPanel = new JPanel(new GridLayout(5,1));
         JPanel divPanel =  new JPanel();
-        JPanel divPanel2 =  new JPanel();
-        JPanel divPanel3 =  new JPanel();
+        
 
         gridPanel.add(titleContainer);
         gridPanel.add(userPassButtContainer);
-        gridPanel.add(divPanel2);
-        gridPanel.add(divPanel3);
+        gridPanel.add(divPanel);
         frame.add(gridPanel);
         frame.setJMenuBar(menuBar);
         frame.setVisible(true); 

@@ -239,16 +239,17 @@ public class SQLHandler {
     }
 
 
-    public boolean updateTask(Connection conn, int id, String title, String description, String assignedEmails, String bucket, String frequency, Date dueDate) {
+    public boolean updateTaskToDatabase(Task task) {
         String sql = "UPDATE tasks_table SET title = ?, description = ?, assignedEmails = ?, bucket = ?, frequency = ?, dueDate = ? WHERE ID = ?;";
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, title);
-            pstmt.setString(2, description);
-            pstmt.setString(3, assignedEmails);
-            pstmt.setString(4, bucket);
-            pstmt.setString(5, frequency);
-            pstmt.setDate(6, dueDate);
-            pstmt.setInt(7, id);
+        try (Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setString(1, task.getTitle());
+            pstmt.setString(2, task.getDescription());
+            pstmt.setString(3, task.getAssignedEmails());
+            pstmt.setString(4, task.getBucket());
+            pstmt.setString(5, task.getFrequency());
+            pstmt.setString(6, task.getDueDate());
+            pstmt.setInt(7, task.getID());
             int affectedRows = pstmt.executeUpdate();
             return affectedRows > 0;
         } catch (SQLException e) {
@@ -347,7 +348,7 @@ public class SQLHandler {
                 task.setAssignedEmails(rs.getString("assignedEmails"));
                 task.setBucket(rs.getString("bucket"));
                 task.setFrequency(rs.getString("frequency"));
-                task.setDueDate(formatDate(rs.getLong("dueDate"))); // Assuming dueDate is stored as a string
+                task.setDueDate(rs.getString("dueDate")); // Assuming dueDate is stored as a string
                 tasks.getTaskList().add(task); 
                 if (id>maxID) maxID = id;
             }

@@ -127,7 +127,6 @@ public class RowPanel {
                 System.out.println("Submitted task ID: " + task.getID());
                 
                 disableFields();
-                SQLHandler.getInstance().inspectTaskIdSequence();
 
 
                 JOptionPane.showMessageDialog(actionButton, "This Task will now appear on the Planner View!\n\n"+
@@ -152,26 +151,7 @@ public class RowPanel {
         }
 
         public void updateTaskToDatabase(Task task){
-                SQLHandler sqlHandler = SQLHandler.getInstance();
-                Connection conn = SQLHandler.getConnection();
-                if (conn != null) {
-                        try {
-                                // Convert dueDate string (dd/MM/yyyy) to java.sql.Date
-                                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                                java.util.Date utilDate = sdf.parse(task.getDueDate());
-                                java.sql.Date sqlDueDate = new java.sql.Date(utilDate.getTime());
-                                boolean updated = sqlHandler.updateTask(conn,task.getID(),task.getTitle(),task.getDescription(),task.getAssignedEmails(),task.getBucket(),task.getFrequency(),sqlDueDate);
-                                if (!updated) {
-                                        JOptionPane.showMessageDialog(actionButton, "Failed to update task to the database.");
-                                }
-                        } catch (Exception e) {
-                                
-                                e.printStackTrace();
-                                JOptionPane.showMessageDialog(actionButton, "Error while updating task: " + e.getMessage());
-                        }
-                } else {
-                        JOptionPane.showMessageDialog(actionButton, "Database connection not available.");
-                }
+                SQLHandler.getInstance().updateTaskToDatabase(task);
                 tasks.removeAllTasks();
         }
 
@@ -274,8 +254,8 @@ public class RowPanel {
         public JPanel createBucketComboBox() {
                 JPanel field = new JPanel();
 
-                String[] bucketOptions = {"Quality Team", "Environments Team", "Change and Release Team", "Operations Monitoring Team"};
-                bucketComboBox = new JComboBox<>(bucketOptions);
+                String[] bucketOptions = getBucketOptions();
+                bucketComboBox = new JComboBox<String>(bucketOptions);
                 bucketComboBox.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
                 JPanel panel = new JPanel();
@@ -286,6 +266,11 @@ public class RowPanel {
                 rowLength++;
                 return field;
         }
+
+        public static String[] getBucketOptions() {
+                return new String[] {"Quality Team","Environments Team","Change and Release Team","Operations Monitoring Team"};
+        }
+
 
         public String getBucketString(){
                 return (String) bucketComboBox.getSelectedItem();

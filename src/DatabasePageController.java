@@ -3,7 +3,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 
 public class DatabasePageController {
     DatabasePage databasePage;
@@ -15,12 +17,12 @@ public class DatabasePageController {
         tasks  = Tasks.getInstance();
         loadExistingItemstoRows();  
         SQLHandler.getInstance().inspectTaskIdSequence();
-
+        
         databasePage.getSearchButton().addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String query = databasePage.getSearchField().getText().trim();
                 if (!query.isEmpty()) {
-                    filterTasks(query);
+                    filterTasksByTitleAndDescription(query);
                 }
             }
         });
@@ -30,8 +32,42 @@ public class DatabasePageController {
                 resetTaskList();
             }
         });
-        
 
+        databasePage.getBucketDropDownButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JPopupMenu bucketMenu = new JPopupMenu();
+                String[] bucketOptions = RowPanel.getBucketOptions();
+                for (String option : bucketOptions) {
+                    JMenuItem item = new JMenuItem(option);
+                    item.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            JOptionPane.showMessageDialog(databasePage.getDatabaseFrame(), "Selected: " + option);
+                            filterTasksByBucket(option);
+                        }
+                    });
+                    bucketMenu.add(item);
+                }
+                JMenuItem resetItem = new JMenuItem("Show All");
+                resetItem.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        resetTaskList(); // Call the controller method to reset
+                    }
+                });
+                bucketMenu.addSeparator(); // Optional: separates reset from other options
+                bucketMenu.add(resetItem);
+                bucketMenu.show(databasePage.getBucketDropDownButton(), 0, databasePage.getBucketDropDownButton().getHeight());
+            }
+        });
+
+        databasePage.getPlannerButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PlannerPage plannerPage = new PlannerPage(databasePage.getDatabaseFrame());
+            }
+        });
     }
 
     public void loadExistingItemstoRows(){
@@ -52,7 +88,7 @@ public class DatabasePageController {
         tasks.removeAllTasks();
     }
 
-    public void filterTasks(String query) {
+    public void filterTasksByTitleAndDescription(String query) {
         SQLHandler.getInstance().loadTasksFromDatabase();
         List<Task> filtered = new ArrayList<>();
         for (int i = 0; i < tasks.size(); i++) {
@@ -69,6 +105,25 @@ public class DatabasePageController {
         databasePage.highlightSearchMode();
         tasks.removeAllTasks();
     }
+
+    public void filterTasksByBucket(String bucket) {
+        SQLHandler.getInstance().loadTasksFromDatabase();
+        List<Task> filtered = new ArrayList<>();
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
+            if (task.getBucket().equalsIgnoreCase(bucket)) {
+                filtered.add(task);
+            }
+        }
+
+        databasePage.clearTasksFromGrid();
+        for (Task task : filtered) {
+            databasePage.addExistingTask(task);
+        }
+        databasePage.highlightSearchMode();
+        tasks.removeAllTasks();
+    }
+
 
     public void resetTaskList() {
         databasePage.clearTasksFromGrid();

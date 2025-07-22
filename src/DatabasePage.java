@@ -11,7 +11,7 @@ public class DatabasePage {
     JTextField textBox;
     JScrollPane scrollPane;
     JPanel gridPanel;
-    JPanel mainPanel;
+    
     JLabel textLabel;
     JPanel borderPanel;
     JPanel buttonsPanel;
@@ -23,6 +23,8 @@ public class DatabasePage {
     int contentPaneHeight;
     RowPanel firstRowPanel;
     JScrollPane mainScrollPane;
+    JPanel mainPanel;
+    JButton bucketDropDownButton;
     private JTextField searchField;
     private JButton searchButton;
     private JButton clearSearchButton;
@@ -92,7 +94,11 @@ public class DatabasePage {
         gridLabels.add(preBucketBuffer);
         JLabel bucketLabel = new JLabel ("Bucket");
         bucketLabel.setFont(labelFont);
-        gridLabels.add(bucketLabel);
+        bucketDropDownButton = new JButton("▼");
+        JPanel bucketLabelAndDropDown = new JPanel();
+        bucketLabelAndDropDown.add(bucketLabel);
+        bucketLabelAndDropDown.add(bucketDropDownButton);
+        gridLabels.add(bucketLabelAndDropDown);
 
         JPanel preFrequencyBuffer = new JPanel();
         preFrequencyBuffer.setPreferredSize(new Dimension(70, 10));
@@ -127,12 +133,7 @@ public class DatabasePage {
 
         gridLabels.setLayout(new BoxLayout(gridLabels, BoxLayout.X_AXIS));
 
-        plannerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                PlannerPage plannerPage = new PlannerPage(dataFrame);
-            }
-        });
+        
 
         gridPanel = new JPanel();
         gridPanel.setLayout(new BoxLayout(gridPanel, BoxLayout.Y_AXIS));
@@ -179,7 +180,7 @@ public class DatabasePage {
     }
 
     public void addFirstNewTask(){
-        JPanel panel = addNewTask();
+        addNewTask();
         newTaskButton.setEnabled(false);
         newTaskButton.setVisible(false);
         gridPanel.revalidate();
@@ -238,5 +239,17 @@ public class DatabasePage {
 
     public JButton getClearSearchButton(){
         return clearSearchButton;
+    }
+
+    public JButton getPlannerButton(){
+        return plannerButton;
+    }
+
+    public JFrame getDatabaseFrame(){
+        return dataFrame;
+    }
+
+    public JButton getBucketDropDownButton(){
+        return bucketDropDownButton;
     }
 }
