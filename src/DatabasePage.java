@@ -26,12 +26,10 @@ public class DatabasePage {
     private JTextField searchField;
     private JButton searchButton;
     private JButton clearSearchButton;
-    private DatabasePageController controller;
 
 
     public DatabasePage(JFrame dataFrame){
         Font labelFont = new Font("Serif bold", Font.BOLD, 16);
-        Font inputFont = new Font("Serif bold", Font.PLAIN, 14);
 
         this.dataFrame = dataFrame;
         dataFrame.getContentPane().removeAll();
@@ -48,9 +46,13 @@ public class DatabasePage {
         JPanel searchPanel = new JPanel();
         searchField = new JTextField(20);
         searchButton = new JButton("Search");
+        searchButton.setFont(labelFont);
         clearSearchButton = new JButton("Clear Search");
+        clearSearchButton.setFont(labelFont);
         clearSearchButton.setVisible(false);
-        searchPanel.add(new JLabel("Search:"));
+        JLabel searchLabel = new JLabel("Search (Title/Description):");
+        searchLabel.setFont(labelFont);
+        searchPanel.add(searchLabel);
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
         searchPanel.add(clearSearchButton);
