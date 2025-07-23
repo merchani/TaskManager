@@ -20,9 +20,7 @@ public class PlannerPageController {
         sqlHandler = SQLHandler.getInstance();
         sqlHandler.loadTasksFromDatabase();
         ArrayList<ColumnPanel> columnsList = plannerPage.getColumnsList();
-        if (tasks.size() > 0) {
-            JOptionPane.showMessageDialog(plannerPage.getColumnsList().get(0).getColumnPanel(), "The size of tasks list: " + tasks.size());
-        }
+        
         for (int taskIndex = 0;taskIndex<tasks.size();taskIndex++){
             Task task = tasks.get(taskIndex);
             for (int colIndex = 0; colIndex < columnsList.size(); colIndex++) {

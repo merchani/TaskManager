@@ -135,7 +135,6 @@ public class DatabasePageController {
                 for (int i = 0; i < tasks.size(); i++) {
                     Task task = tasks.get(i);
                     uniqueSet.add(task.getDueDate());
-                    System.out.print("This is a date: " + task.getDueDate()+"\n");
                 }
                 List<String> ascendingDates = sortDateStringsAscending(uniqueSet);
                 List<String> descendingDates = sortDateStringsDescending(uniqueSet);
